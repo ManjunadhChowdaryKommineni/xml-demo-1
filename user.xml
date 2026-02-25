@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?xml-stylesheet type="text/xsl" href="user.xsl"?>
-
 <users>
     <user>
         <id>1</id>
@@ -82,4 +80,5 @@
         <department>CIVIL</department>
         <email>divya@gmail.com</email>
     </user>
+
 </users>
