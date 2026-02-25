@@ -6,29 +6,41 @@
 <body>
 
 <h2>User Information Table</h2>
-
-<div id="output"></div>
+<table border="1" id="table" cellpadding="6"></table>
 
 <script>
-    fetch("users.xml")
-        .then(response => response.text())
-        .then(xmlText => {
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(xmlText, "text/xml");
+fetch("users.xml")
+.then(response => response.text())
+.then(str => {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(str, "application/xml");
 
-            fetch("users.xsl")
-                .then(response => response.text())
-                .then(xslText => {
-                    const xsl = parser.parseFromString(xslText, "text/xml");
+    const users = xml.getElementsByTagName("user");
+    const table = document.getElementById("table");
 
-                    const xsltProcessor = new XSLTProcessor();
-                    xsltProcessor.importStylesheet(xsl);
+    // Header
+    table.innerHTML = `
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Department</th>
+            <th>Email</th>
+        </tr>
+    `;
 
-                    const resultDocument = xsltProcessor.transformToFragment(xml, document);
-
-                    document.getElementById("output").appendChild(resultDocument);
-                });
-        });
+    for(let i=0; i<users.length; i++){
+        table.innerHTML += `
+            <tr>
+                <td>${users[i].getElementsByTagName("id")[0].textContent}</td>
+                <td>${users[i].getElementsByTagName("name")[0].textContent}</td>
+                <td>${users[i].getElementsByTagName("role")[0].textContent}</td>
+                <td>${users[i].getElementsByTagName("department")[0].textContent}</td>
+                <td>${users[i].getElementsByTagName("email")[0].textContent}</td>
+            </tr>
+        `;
+    }
+});
 </script>
 
 </body>
